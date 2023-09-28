@@ -12,7 +12,7 @@ public class Tabuleiro {
         this.colunas = colunas;
 // Completando manualmente. A matriz de peças será instanciada com peças na quantidade de linhas e colunas informadas
         pecas = new Pecas[linhas][colunas];
-        
+
 // Get e Set
     }
 
@@ -31,7 +31,13 @@ public class Tabuleiro {
     public void setColunas(int colunas) {
         this.colunas = colunas;
     }
-    
-    
 
+// Metodos 
+    public Pecas pecas(int linha, int coluna) {
+        return pecas[linha][coluna];
+    }
+
+    public Pecas pecas(Posicao posicao) {
+        return pecas[posicao.getLinha()][posicao.getColuna()];
+    }
 }
