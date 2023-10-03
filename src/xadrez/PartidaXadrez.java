@@ -32,10 +32,22 @@ public class PartidaXadrez {
     
 // Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 
     private void configInicial() {
-        colocandoNovaPeca('b', 6, new Torre(tabuleiro, Cor.BRANCO));
-        colocandoNovaPeca('e', 8, new Rei(tabuleiro, Cor.PRETO));
-        colocandoNovaPeca('e', 1, new Rei (tabuleiro, Cor.BRANCO));
-        colocandoNovaPeca('b', 3, new Rei(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('c', 1, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('c', 2, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('d', 2, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('e', 2, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('e',1, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('d', 1, new Rei(tabuleiro, Cor.BRANCO));
+                
+        colocandoNovaPeca('c', 7, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('c', 8, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('d', 7, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('e', 7, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('e', 8, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('d', 8, new Rei(tabuleiro, Cor.PRETO));
+    
+        
+       
         
     }
 
