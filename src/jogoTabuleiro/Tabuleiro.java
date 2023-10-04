@@ -66,6 +66,20 @@ public class Tabuleiro {
         peca.posicao = posicao;
     }
 
+    // Método para remover uma peça
+    public Pecas removPeca(Posicao posicao) {
+        if (!posicaoExistente(posicao)) {
+            throw new TabuleiroExecao("Já existe uma peça nessa posição: " + posicao);
+        }
+        if (pecas(posicao)== null) {
+            return null;
+        }
+        Pecas auxPecas = pecas(posicao);
+        auxPecas.posicao = null;
+        pecasMatriz[posicao.getLinha()][posicao.getColuna()] = null;
+        return auxPecas;
+    }
+
 // Verificando a existência de posições e peças.
     // Método auxiliar para o posicaoExistente.
     private boolean posicaoExistente(int linha, int coluna) {

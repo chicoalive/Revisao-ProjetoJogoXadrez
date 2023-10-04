@@ -1,5 +1,7 @@
 package xadrez;
 
+import jogoTabuleiro.Pecas;
+import jogoTabuleiro.Posicao;
 import jogoTabuleiro.Tabuleiro;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
@@ -25,30 +27,52 @@ public class PartidaXadrez {
         return matriz;
     }
 
-// Método para receber as coordenadas do xadrez.     
-    private void colocandoNovaPeca (char coluna, int linha, PecaXadrez peca){
-        tabuleiro.lugarPecas(peca, new XadrezPosicao(coluna, linha).dePosicao());
+    public PecaXadrez movimentoPecaXadrez(XadrezPosicao posicaoOrigem, XadrezPosicao posicaoDestino) {
+// Convertendo para posições da matriz. 
+        Posicao origem = posicaoOrigem.dePosicao();
+        Posicao destino = posicaoDestino.dePosicao();
+        validarPosicaoOrigem(origem);
+// Necessário criar um dowcast para peça xadrez
+        Pecas pecaCapturada = fazerMovimento(origem, destino);
+        return (PecaXadrez) pecaCapturada;
     }
     
+    private Pecas fazerMovimento (Posicao origem, Posicao destino){
+        Pecas p = tabuleiro.removPeca(origem);
+        Pecas pecaCapturada = tabuleiro.removPeca(destino);
+        tabuleiro.lugarPecas(p, destino);
+        return pecaCapturada;
+    }
+
+    private void validarPosicaoOrigem(Posicao posicao) {
+// Se não existir uma peça nessa posição, o código lançara uma exceção.
+        if (!tabuleiro.haPecas(posicao)) {
+            throw new XadrezExcecao("Não existe peça na posição de origem");
+        }
+
+    }
+
+// Método para receber as coordenadas do xadrez.     
+    private void colocandoNovaPeca(char coluna, int linha, PecaXadrez peca) {
+        tabuleiro.lugarPecas(peca, new XadrezPosicao(coluna, linha).dePosicao());
+    }
+
 // Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 
     private void configInicial() {
         colocandoNovaPeca('c', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('c', 2, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('d', 2, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('e', 2, new Torre(tabuleiro, Cor.BRANCO));
-        colocandoNovaPeca('e',1, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('e', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('d', 1, new Rei(tabuleiro, Cor.BRANCO));
-                
+
         colocandoNovaPeca('c', 7, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('c', 8, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('d', 7, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('e', 7, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('e', 8, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('d', 8, new Rei(tabuleiro, Cor.PRETO));
-    
-        
-       
-        
+
     }
 
 }

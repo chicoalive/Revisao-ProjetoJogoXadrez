@@ -2,7 +2,7 @@ package xadrez;
 
 import jogoTabuleiro.Posicao;
 
-public class XadrezPosicao {
+public class XadrezPosicao  {
 
     private char coluna;
     private int linha;
