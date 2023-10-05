@@ -29,6 +29,12 @@ public class UI {
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    
+    // Limpando a tela
+    public static void limparTela() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     // Lendo a posição que o usuário quer as peças do xadrez. 
     public static XadrezPosicao leiaXadrezPosicao(Scanner teclado) {
@@ -37,8 +43,7 @@ public class UI {
             char coluna = respostaUsuario.charAt(0);
             int linha = Integer.parseInt(respostaUsuario.substring(1));
             return new XadrezPosicao(coluna, linha);
-        }
-        catch (RuntimeException erro){
+        } catch (RuntimeException erro) {
             throw new InputMismatchException("Erro ao ler posição de xadrez: Valores validos são de a1 a h8");
         }
     }
