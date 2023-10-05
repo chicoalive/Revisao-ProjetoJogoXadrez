@@ -1,6 +1,6 @@
 package jogoTabuleiro;
 
-public class Pecas {
+public abstract class Pecas {
 
     protected Posicao posicao;
     private Tabuleiro tabuleiro;
@@ -16,4 +16,22 @@ public class Pecas {
         return tabuleiro;
     }
 
+    // Posiveis movimentos de uma peça 
+    public abstract boolean[][] movimentosPossiveisMatriz();
+
+    public boolean movimentosPossiveis(Posicao posicao) {
+        return movimentosPossiveisMatriz()[posicao.getLinha()][posicao.getColuna()];
+    }
+
+    public boolean existeMovimentoPossivel() {
+        boolean[][] matrizAuxiliar = movimentosPossiveisMatriz();
+        for (int i = 0; i < matrizAuxiliar.length; i++) {
+            for (int j = 0; j < matrizAuxiliar.length; j++) {
+                if (matrizAuxiliar[i][j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

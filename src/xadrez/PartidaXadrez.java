@@ -36,8 +36,8 @@ public class PartidaXadrez {
         Pecas pecaCapturada = fazerMovimento(origem, destino);
         return (PecaXadrez) pecaCapturada;
     }
-    
-    private Pecas fazerMovimento (Posicao origem, Posicao destino){
+
+    private Pecas fazerMovimento(Posicao origem, Posicao destino) {
         Pecas p = tabuleiro.removPeca(origem);
         Pecas pecaCapturada = tabuleiro.removPeca(destino);
         tabuleiro.lugarPecas(p, destino);
@@ -48,6 +48,9 @@ public class PartidaXadrez {
 // Se não existir uma peça nessa posição, o código lançara uma exceção.
         if (!tabuleiro.haPecas(posicao)) {
             throw new XadrezExcecao("Não existe peça na posição de origem");
+        }
+        if (!tabuleiro.pecas(posicao).existeMovimentoPossivel()) {
+            throw new XadrezExcecao("Não há movimentos possivéis para a peça");
         }
 
     }
