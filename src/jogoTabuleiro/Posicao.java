@@ -5,7 +5,7 @@ public class Posicao {
     private int linha;
     private int coluna;
 
-// Construtores
+    // Construtores
     public Posicao() {
     }
 
@@ -13,8 +13,8 @@ public class Posicao {
         this.linha = linha;
         this.coluna = coluna;
     }
-//Get e Set
 
+    //Get e Set
     public int getLinha() {
         return linha;
     }
@@ -30,13 +30,17 @@ public class Posicao {
     public void setColuna(int coluna) {
         this.coluna = coluna;
     }
-// Imprimindo uma posição na tela. 
 
+    // Atualizando valores de posição
+    public void novoValores(int linha, int coluna) {
+        this.linha = linha;
+        this.coluna = coluna;
+    }
+
+    // Imprimindo uma posição na tela. 
     @Override
     public String toString() {
         return linha + ", " + coluna;
     }
 
-    
-    
 }
