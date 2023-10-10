@@ -20,20 +20,31 @@ public class PartidaXadrez {
         PecaXadrez[][] matriz = new PecaXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
         for (int i = 0; i < tabuleiro.getLinhas(); i++) {
             for (int j = 0; j < tabuleiro.getColunas(); j++) {
-// Necessário criar uma dowcast para a matriz entender que se trata de peças de xadrez
+    // Necessário criar uma dowcast para a matriz entender que se trata de peças de xadrez
                 matriz[i][j] = (PecaXadrez) tabuleiro.pecas(i, j);
             }
         }
         return matriz;
     }
-
+    
+    // Mostrando os possíveis movimentos que a peça pode fazer!
+       public boolean [][] possivelMovimento (XadrezPosicao origemPosicao){
+       // Convertendo a posição de Xadrez para posição de matriz normal
+       Posicao posicao = origemPosicao.dePosicao();
+       // Retornando os movimentos possíveis da posição.
+       validarPosicaoOrigem(posicao);
+       // Retornando os movimentos possiveis da peça
+       return tabuleiro.pecas(posicao).movimentosPossiveisMatriz();
+   }
+    
+    
     public PecaXadrez movimentoPecaXadrez(XadrezPosicao posicaoOrigem, XadrezPosicao posicaoDestino) {
-// Convertendo para posições da matriz. 
+    // Convertendo para posições da matriz. 
         Posicao origem = posicaoOrigem.dePosicao();
         Posicao destino = posicaoDestino.dePosicao();
         validarPosicaoOrigem(origem);
         validarposicaoDestino(origem, destino);
-// Necessário criar um dowcast para peça xadrez
+    // Necessário criar um dowcast para peça xadrez
         Pecas pecaCapturada = fazerMovimento(origem, destino);
         return (PecaXadrez) pecaCapturada;
     }
@@ -46,7 +57,7 @@ public class PartidaXadrez {
     }
 
     private void validarPosicaoOrigem(Posicao posicao) {
-// Se não existir uma peça nessa posição, o código lançara uma exceção.
+    // Se não existir uma peça nessa posição, o código lançara uma exceção.
         if (!tabuleiro.haPecas(posicao)) {
             throw new XadrezExcecao("Não existe peça na posição de origem");
         }
@@ -62,12 +73,12 @@ public class PartidaXadrez {
 
     }
 
-// Método para receber as coordenadas do xadrez.     
+    // Método para receber as coordenadas do xadrez.     
     private void colocandoNovaPeca(char coluna, int linha, PecaXadrez peca) {
         tabuleiro.lugarPecas(peca, new XadrezPosicao(coluna, linha).dePosicao());
     }
 
-// Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 
+    // Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 
     private void configInicial() {
         colocandoNovaPeca('c', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('c', 2, new Torre(tabuleiro, Cor.BRANCO));
