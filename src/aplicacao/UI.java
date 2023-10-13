@@ -48,6 +48,14 @@ public class UI {
         }
     }
 
+    // Imprimindo a partida
+    public static void imprimirPartida(PartidaXadrez partidaXadrez) {
+        imprimirTabuleiro(partidaXadrez.getPecas());
+        System.out.println("");
+        System.out.println("Turno : " + partidaXadrez.getTurno());
+        System.out.println("Proxima jogada: " + partidaXadrez.getJogadorAtual());
+    }
+
     public static void imprimirTabuleiro(PecaXadrez[][] pecas) {
         for (int i = 0; i < pecas.length; i++) {
             System.out.print((8 - i) + " ");
@@ -58,9 +66,9 @@ public class UI {
         }
         System.out.println("  a b c d e f g h ");
     }
-    
+
     // Sobrecarga
-    public static void imprimirTabuleiro(PecaXadrez[][] pecas, boolean [][] movimentosPossiveis) {
+    public static void imprimirTabuleiro(PecaXadrez[][] pecas, boolean[][] movimentosPossiveis) {
         for (int i = 0; i < pecas.length; i++) {
             System.out.print((8 - i) + " ");
             for (int j = 0; j < pecas.length; j++) {
@@ -76,7 +84,7 @@ public class UI {
             System.out.print(ANSI_BLUE_BACKGROUND);
         }
         if (peca == null) {
-            System.out.print("- "+ ANSI_RESET);
+            System.out.print("- " + ANSI_RESET);
         } else {
             if (peca.getCor() == Cor.BRANCO) {
                 System.out.print(ANSI_WHITE + peca + ANSI_RESET);

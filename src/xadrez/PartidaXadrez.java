@@ -8,44 +8,59 @@ import xadrez.pecas.Torre;
 
 public class PartidaXadrez {
 
+    private int turno;
+    private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
 
-    // Coração do nosso programa. Quem tem que saber a dimensão do jogo é essa classe.
+    // Construtores. Coração do nosso programa. Quem tem que saber a dimensão do jogo é essa classe.
     public PartidaXadrez() {
         tabuleiro = new Tabuleiro(8, 8);
+        turno = 1;
+        jogadorAtual = Cor.BRANCO;
         configInicial();
     }
 
+    // Apenas Get, pois não queremos modificar os atributos vez e jogador atual. 
+    public int getTurno(){
+        return turno;
+    }
+    
+    public Cor getJogadorAtual(){
+        return jogadorAtual;
+    }
+    
+    // Métodos
     public PecaXadrez[][] getPecas() {
         PecaXadrez[][] matriz = new PecaXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
         for (int i = 0; i < tabuleiro.getLinhas(); i++) {
             for (int j = 0; j < tabuleiro.getColunas(); j++) {
-    // Necessário criar uma dowcast para a matriz entender que se trata de peças de xadrez
+                // Necessário criar uma dowcast para a matriz entender que se trata de peças de xadrez
                 matriz[i][j] = (PecaXadrez) tabuleiro.pecas(i, j);
             }
         }
         return matriz;
     }
-    
+
     // Mostrando os possíveis movimentos que a peça pode fazer!
-       public boolean [][] possivelMovimento (XadrezPosicao origemPosicao){
-       // Convertendo a posição de Xadrez para posição de matriz normal
-       Posicao posicao = origemPosicao.dePosicao();
-       // Retornando os movimentos possíveis da posição.
-       validarPosicaoOrigem(posicao);
-       // Retornando os movimentos possiveis da peça
-       return tabuleiro.pecas(posicao).movimentosPossiveisMatriz();
-   }
-    
-    
+    public boolean[][] possivelMovimento(XadrezPosicao origemPosicao) {
+        // Convertendo a posição de Xadrez para posição de matriz normal
+        Posicao posicao = origemPosicao.dePosicao();
+        // Retornando os movimentos possíveis da posição.
+        validarPosicaoOrigem(posicao);
+        // Retornando os movimentos possiveis da peça
+        return tabuleiro.pecas(posicao).movimentosPossiveisMatriz();
+    }
+
     public PecaXadrez movimentoPecaXadrez(XadrezPosicao posicaoOrigem, XadrezPosicao posicaoDestino) {
-    // Convertendo para posições da matriz. 
+        // Convertendo para posições da matriz. 
         Posicao origem = posicaoOrigem.dePosicao();
         Posicao destino = posicaoDestino.dePosicao();
         validarPosicaoOrigem(origem);
         validarposicaoDestino(origem, destino);
-    // Necessário criar um dowcast para peça xadrez
+        // Necessário criar um dowcast para peça xadrez
         Pecas pecaCapturada = fazerMovimento(origem, destino);
+        // Troca de turno
+        proximoTurno();
         return (PecaXadrez) pecaCapturada;
     }
 
@@ -57,9 +72,13 @@ public class PartidaXadrez {
     }
 
     private void validarPosicaoOrigem(Posicao posicao) {
-    // Se não existir uma peça nessa posição, o código lançara uma exceção.
+        // Se não existir uma peça nessa posição, o código lançara uma exceção.
         if (!tabuleiro.haPecas(posicao)) {
             throw new XadrezExcecao("Não existe peça na posição de origem");
+        }
+        // Verificado se o turno é do jogador atual, como o getCor é uma propriedade do PecaXadrez, preciso realizar o dowcast para PecaXadrez
+        if (jogadorAtual != ((PecaXadrez)tabuleiro.pecas(posicao)).getCor()) {
+            throw new XadrezExcecao("A peça escolhida não é sua, favor escolher outra");
         }
         if (!tabuleiro.pecas(posicao).existeMovimentoPossivel()) {
             throw new XadrezExcecao("Não há movimentos possivéis para a peça");
@@ -69,8 +88,13 @@ public class PartidaXadrez {
     private void validarposicaoDestino(Posicao origem, Posicao destino) {
         if (!tabuleiro.pecas(origem).movimentosPossiveis(destino)) {
             throw new XadrezExcecao("A peça escolhida não pode ser movida!");
-        }
-
+       }
+    }
+    
+    // Troca de turnos dos jogadores
+    private void proximoTurno (){
+        turno++;
+        jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
     }
 
     // Método para receber as coordenadas do xadrez.     

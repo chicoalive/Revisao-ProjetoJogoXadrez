@@ -21,7 +21,7 @@ public class Programa {
             try {
                 // limpando a tela
                 UI.limparTela();
-                UI.imprimirTabuleiro(partidaXadrez.getPecas());
+                UI.imprimirPartida(partidaXadrez);
                 System.out.println("");
                 System.out.print("Posição de origem da peça: ");
                 XadrezPosicao origem = UI.leiaXadrezPosicao(teclado);
