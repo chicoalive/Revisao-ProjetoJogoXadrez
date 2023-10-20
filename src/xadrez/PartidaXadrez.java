@@ -1,5 +1,8 @@
 package xadrez;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import jogoTabuleiro.Pecas;
 import jogoTabuleiro.Posicao;
 import jogoTabuleiro.Tabuleiro;
@@ -11,6 +14,12 @@ public class PartidaXadrez {
     private int turno;
     private Cor jogadorAtual;
     private Tabuleiro tabuleiro;
+    // Por padrão o boolean começa com zero
+    private boolean check;
+
+    // Listas para peças no tabuleiro e lista para peças capturadas. 
+    private List<Pecas> pecasNoTabuleiro = new ArrayList<>();
+    private List<Pecas> pecasCapturadas = new ArrayList<>();
 
     // Construtores. Coração do nosso programa. Quem tem que saber a dimensão do jogo é essa classe.
     public PartidaXadrez() {
@@ -21,14 +30,18 @@ public class PartidaXadrez {
     }
 
     // Apenas Get, pois não queremos modificar os atributos vez e jogador atual. 
-    public int getTurno(){
+    public int getTurno() {
         return turno;
     }
-    
-    public Cor getJogadorAtual(){
+
+    public Cor getJogadorAtual() {
         return jogadorAtual;
     }
-    
+
+    public boolean getCheck() {
+        return check;
+    }
+
     // Métodos
     public PecaXadrez[][] getPecas() {
         PecaXadrez[][] matriz = new PecaXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
@@ -59,6 +72,14 @@ public class PartidaXadrez {
         validarposicaoDestino(origem, destino);
         // Necessário criar um dowcast para peça xadrez
         Pecas pecaCapturada = fazerMovimento(origem, destino);
+        // Testando se o movimento colocará o jogador atual em check
+        if (testeCheck(jogadorAtual)) {
+            desFazerMovimento(origem, destino, pecaCapturada);
+            throw new XadrezExcecao("Você não pode se colocar em check: ");
+        }
+        // Testando se o oponente atual ficou em check. Expresão condicional ternaria. 
+        check = (testeCheck(oponente(jogadorAtual))) ? true : false;
+
         // Troca de turno
         proximoTurno();
         return (PecaXadrez) pecaCapturada;
@@ -68,7 +89,21 @@ public class PartidaXadrez {
         Pecas p = tabuleiro.removPeca(origem);
         Pecas pecaCapturada = tabuleiro.removPeca(destino);
         tabuleiro.lugarPecas(p, destino);
+        if (pecaCapturada != null) {
+            pecasNoTabuleiro.remove(pecaCapturada);
+            pecasCapturadas.add(pecaCapturada);
+        }
         return pecaCapturada;
+    }
+
+    private void desFazerMovimento(Posicao origem, Posicao destino, Pecas pecaCapturada) {
+        Pecas p = tabuleiro.removPeca(destino);
+        tabuleiro.lugarPecas(p, origem);
+        if (pecaCapturada != null) {
+            tabuleiro.lugarPecas(p, destino);
+            pecasCapturadas.remove(pecaCapturada);
+            pecasNoTabuleiro.add(pecaCapturada);
+        }
     }
 
     private void validarPosicaoOrigem(Posicao posicao) {
@@ -77,7 +112,7 @@ public class PartidaXadrez {
             throw new XadrezExcecao("Não existe peça na posição de origem");
         }
         // Verificado se o turno é do jogador atual, como o getCor é uma propriedade do PecaXadrez, preciso realizar o dowcast para PecaXadrez
-        if (jogadorAtual != ((PecaXadrez)tabuleiro.pecas(posicao)).getCor()) {
+        if (jogadorAtual != ((PecaXadrez) tabuleiro.pecas(posicao)).getCor()) {
             throw new XadrezExcecao("A peça escolhida não é sua, favor escolher outra");
         }
         if (!tabuleiro.pecas(posicao).existeMovimentoPossivel()) {
@@ -88,18 +123,49 @@ public class PartidaXadrez {
     private void validarposicaoDestino(Posicao origem, Posicao destino) {
         if (!tabuleiro.pecas(origem).movimentosPossiveis(destino)) {
             throw new XadrezExcecao("A peça escolhida não pode ser movida!");
-       }
+        }
     }
-    
+
     // Troca de turnos dos jogadores
-    private void proximoTurno (){
+    private void proximoTurno() {
         turno++;
         jogadorAtual = (jogadorAtual == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
+    }
+
+    // Criando oponente
+    private Cor oponente(Cor cor) {
+        return (cor == cor.BRANCO) ? cor.PRETO : Cor.BRANCO;
+    }
+
+    private PecaXadrez rei(Cor cor) {
+        List<Pecas> lista = pecasNoTabuleiro.stream().filter(pecaX -> ((PecaXadrez) pecaX).getCor() == cor).collect(Collectors.toList());
+        for (Pecas pecaX : lista) {
+            if (pecaX instanceof Rei) {
+                return (PecaXadrez) pecaX;
+            }
+        }
+        // O compilador informa que pode ser que o método não retorne nada, nesse caso devemos lançar uma exceção.
+        throw new IllegalStateException("Não existe o Rei na cor " + cor + " no tabuleiro");
+    }
+
+    // Testando se uma peça está em check, recebe uma cor como argumento, pois estou testando se o rei de tal cor está em check. 
+    private boolean testeCheck(Cor cor) {
+        Posicao reiPosicao = rei(cor).getXadrezPosicao().dePosicao();
+        // Lista de peças do oponente nas cores do parâmetro. Peças no tabaleiro filtrada com a cor do Rei. 
+        List<Pecas> oponentePecas = pecasNoTabuleiro.stream().filter(pecaX -> ((PecaXadrez) pecaX).getCor() == oponente(cor)).collect(Collectors.toList());
+        for (Pecas p : oponentePecas) {
+            boolean[][] matriz = p.movimentosPossiveisMatriz();
+            if (matriz[reiPosicao.getLinha()][reiPosicao.getColuna()]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Método para receber as coordenadas do xadrez.     
     private void colocandoNovaPeca(char coluna, int linha, PecaXadrez peca) {
         tabuleiro.lugarPecas(peca, new XadrezPosicao(coluna, linha).dePosicao());
+        pecasNoTabuleiro.add(peca);
     }
 
     // Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 

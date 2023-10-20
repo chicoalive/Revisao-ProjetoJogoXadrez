@@ -19,6 +19,10 @@ public abstract class PecaXadrez extends Pecas {
     public Cor getCor() {
         return cor;
     }
+    
+    public XadrezPosicao getXadrezPosicao(){
+        return XadrezPosicao.dePosicao(posicao); 
+    }
 
     // Método para verificar se a peça adversária é diferente  
     protected boolean haPecaAdversaria(Posicao posicao) {
