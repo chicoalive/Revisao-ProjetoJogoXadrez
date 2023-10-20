@@ -12,15 +12,15 @@ import xadrez.XadrezExcecao;
 import xadrez.XadrezPosicao;
 
 public class Programa {
-
+    
     public static void main(String[] args) {
-
+        
         Scanner teclado = new Scanner(System.in);
-
+        
         PartidaXadrez partidaXadrez = new PartidaXadrez();
         List<PecaXadrez> capturada = new ArrayList<>();
-
-        while (true) {
+        
+        while (!partidaXadrez.getCheckMate()) {
             try {
                 // limpando a tela
                 UI.limparTela();
@@ -28,7 +28,7 @@ public class Programa {
                 System.out.println("");
                 System.out.print("Posição de origem da peça: ");
                 XadrezPosicao origem = UI.leiaXadrezPosicao(teclado);
-
+                
                 boolean[][] movimentosPossiveis = partidaXadrez.possivelMovimento(origem);
                 UI.limparTela();
                 // Sobrecarga
@@ -48,6 +48,7 @@ public class Programa {
                 teclado.nextLine();
             }
         }
-
+        UI.limparTela();
+        UI.imprimirPartida(partidaXadrez, capturada);
     }
 }

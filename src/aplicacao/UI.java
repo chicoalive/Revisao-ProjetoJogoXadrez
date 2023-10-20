@@ -58,9 +58,14 @@ public class UI {
         imprimirPecaCapturadas(capturada);
         System.out.println("");
         System.out.println("Turno : " + partidaXadrez.getTurno());
-        System.out.println("Proxima jogada: " + partidaXadrez.getJogadorAtual());
-        if (partidaXadrez.getCheck()) {
-            System.out.println("Você está em Check!");
+        if (!partidaXadrez.getCheckMate()) {
+            System.out.println("Proxima jogada: " + partidaXadrez.getJogadorAtual());
+            if (partidaXadrez.getCheck()) {
+                System.out.println("Você está em Check!");
+            }
+        } else {
+            System.out.println("CheckMate!");
+            System.out.println("parabéns ao vencendor: "+partidaXadrez.getJogadorAtual());
         }
     }
 
