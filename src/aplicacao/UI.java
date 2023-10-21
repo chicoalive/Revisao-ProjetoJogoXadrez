@@ -54,10 +54,10 @@ public class UI {
     // Imprimindo a partida
     public static void imprimirPartida(PartidaXadrez partidaXadrez, List<PecaXadrez> capturada) {
         imprimirTabuleiro(partidaXadrez.getPecas());
-        System.out.println("");
+        System.out.println(" ");
         imprimirPecaCapturadas(capturada);
-        System.out.println("");
-        System.out.println("Turno : " + partidaXadrez.getTurno());
+        System.out.println(" ");
+        System.out.println("Turno: " + partidaXadrez.getTurno());
         if (!partidaXadrez.getCheckMate()) {
             System.out.println("Proxima jogada: " + partidaXadrez.getJogadorAtual());
             if (partidaXadrez.getCheck()) {
@@ -77,7 +77,7 @@ public class UI {
             }
             System.out.println(" ");
         }
-        System.out.println("  a b c d e f g h ");
+        System.out.println("  abcdefgh");
     }
 
     // Sobrecarga
@@ -89,7 +89,7 @@ public class UI {
             }
             System.out.println(" ");
         }
-        System.out.println("  a b c d e f g h ");
+        System.out.println("  abcdefgh");
     }
 
     private static void imprimirPeca(PecaXadrez peca, boolean fundoPeca) {
@@ -97,7 +97,7 @@ public class UI {
             System.out.print(ANSI_BLUE_BACKGROUND);
         }
         if (peca == null) {
-            System.out.print("- " + ANSI_RESET);
+            System.out.print("-" + ANSI_RESET);
         } else {
             if (peca.getCor() == Cor.BRANCO) {
                 System.out.print(ANSI_WHITE + peca + ANSI_RESET);

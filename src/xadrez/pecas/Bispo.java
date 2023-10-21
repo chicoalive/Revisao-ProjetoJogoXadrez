@@ -13,8 +13,8 @@ public class Bispo extends PecaXadrez {
 
     @Override
     public String toString() {
-// Converter uma torre para string
-        return "B ";
+    // Converter uma bispo para string
+        return "B";
     }
 
     @Override

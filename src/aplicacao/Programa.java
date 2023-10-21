@@ -25,7 +25,7 @@ public class Programa {
                 // limpando a tela
                 UI.limparTela();
                 UI.imprimirPartida(partidaXadrez, capturada);
-                System.out.println("");
+                System.out.println(" ");
                 System.out.print("Posição de origem da peça: ");
                 XadrezPosicao origem = UI.leiaXadrezPosicao(teclado);
                 
@@ -33,7 +33,7 @@ public class Programa {
                 UI.limparTela();
                 // Sobrecarga
                 UI.imprimirTabuleiro(partidaXadrez.getPecas(), movimentosPossiveis);
-                System.out.println("");
+                System.out.println(" ");
                 System.out.print("Posição de destino da peça: ");
                 XadrezPosicao destino = UI.leiaXadrezPosicao(teclado);
                 PecaXadrez pecaCapturada = partidaXadrez.movimentoPecaXadrez(origem, destino);

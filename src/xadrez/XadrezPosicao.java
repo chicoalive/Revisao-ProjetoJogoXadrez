@@ -46,7 +46,7 @@ public class XadrezPosicao  {
 
     @Override
     public String toString() {
-        return "" + coluna + linha;
+        return " " + coluna + linha;
     }
 
 }
