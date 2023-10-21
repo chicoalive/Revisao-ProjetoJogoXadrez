@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import jogoTabuleiro.Pecas;
 import jogoTabuleiro.Posicao;
 import jogoTabuleiro.Tabuleiro;
+import xadrez.pecas.Bispo;
 import xadrez.pecas.Peao;
 import xadrez.pecas.Rei;
 import xadrez.pecas.Torre;
@@ -209,7 +210,9 @@ public class PartidaXadrez {
     // Inicio da partida. Para testar eu preciso chamar configInicial no construto da partida. 
     private void configInicial() {
         colocandoNovaPeca('a', 1, new Torre(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('c', 1, new Bispo(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('e', 1, new Rei(tabuleiro, Cor.BRANCO));
+        colocandoNovaPeca('f', 1, new Bispo(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('h', 1, new Torre(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('a', 2, new Peao(tabuleiro, Cor.BRANCO));
         colocandoNovaPeca('b', 2, new Peao(tabuleiro, Cor.BRANCO));
@@ -221,7 +224,9 @@ public class PartidaXadrez {
         colocandoNovaPeca('h', 2, new Peao(tabuleiro, Cor.BRANCO));
 
         colocandoNovaPeca('a', 8, new Torre(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('c', 8, new Bispo(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('e', 8, new Rei(tabuleiro, Cor.PRETO));
+        colocandoNovaPeca('f', 8, new Bispo(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('h', 8, new Torre(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('a', 7, new Peao(tabuleiro, Cor.PRETO));
         colocandoNovaPeca('b', 7, new Peao(tabuleiro, Cor.PRETO));
