@@ -75,9 +75,9 @@ public class UI {
             for (int j = 0; j < pecas.length; j++) {
                 imprimirPeca(pecas[i][j], false);
             }
-            System.out.println(" ");
+            System.out.println();
         }
-        System.out.println("  abcdefgh");
+        System.out.println("  a b c d e f g h");
     }
 
     // Sobrecarga
@@ -87,9 +87,9 @@ public class UI {
             for (int j = 0; j < pecas.length; j++) {
                 imprimirPeca(pecas[i][j], movimentosPossiveis[i][j]);
             }
-            System.out.println(" ");
+            System.out.println();
         }
-        System.out.println("  abcdefgh");
+        System.out.println("  a b c d e f g h");
     }
 
     private static void imprimirPeca(PecaXadrez peca, boolean fundoPeca) {
@@ -97,13 +97,14 @@ public class UI {
             System.out.print(ANSI_BLUE_BACKGROUND);
         }
         if (peca == null) {
-            System.out.print("-" + ANSI_RESET);
+            System.out.print("- " + ANSI_RESET);
         } else {
             if (peca.getCor() == Cor.BRANCO) {
                 System.out.print(ANSI_WHITE + peca + ANSI_RESET);
             } else {
                 System.out.print(ANSI_YELLOW + peca + ANSI_RESET);
             }
+            System.out.print(" ");
         }
     }
 
