@@ -20,21 +20,21 @@ public abstract class PecaXadrez extends Pecas {
     public Cor getCor() {
         return cor;
     }
-    
-    public int getContagemMovimentos(){
+
+    public XadrezPosicao getXadrezPosicao() {
+        return XadrezPosicao.dePosicao(posicao);
+    }
+
+    public int getContagemMovimentos() {
         return contagemMovimentos;
     }
-    
-    public void contagemMovimentosMais(){
+
+    public void contagemMovimentosMais() {
         contagemMovimentos++;
     }
-    
-    public void contagemMovimentoMenos(){
+
+    public void contagemMovimentoMenos() {
         contagemMovimentos--;
-    }
-    
-    public XadrezPosicao getXadrezPosicao(){
-        return XadrezPosicao.dePosicao(posicao); 
     }
 
     // Método para verificar se a peça adversária é diferente  

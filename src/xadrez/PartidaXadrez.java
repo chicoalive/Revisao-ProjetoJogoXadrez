@@ -89,7 +89,7 @@ public class PartidaXadrez {
         // Testando se o oponente atual ficou em check. Expresão condicional ternaria. 
         check = (testeCheck(oponente(jogadorAtual))) ? true : false;
         // Testando se o jogador está em checkmate
-        if (testeCheck(oponente(jogadorAtual))) {
+        if (testeCheckMate(oponente(jogadorAtual))) {
             checkMate = true;
         } else {
             // Troca de turno
@@ -115,7 +115,7 @@ public class PartidaXadrez {
         p.contagemMovimentoMenos();
         tabuleiro.lugarPecas(p, origem);
         if (pecaCapturada != null) {
-            tabuleiro.lugarPecas(p, destino);
+            tabuleiro.lugarPecas(pecaCapturada, destino);
             pecasCapturadas.remove(pecaCapturada);
             pecasNoTabuleiro.add(pecaCapturada);
         }
@@ -154,9 +154,9 @@ public class PartidaXadrez {
 
     private PecaXadrez rei(Cor cor) {
         List<Pecas> lista = pecasNoTabuleiro.stream().filter(pecaX -> ((PecaXadrez) pecaX).getCor() == cor).collect(Collectors.toList());
-        for (Pecas pecaX : lista) {
-            if (pecaX instanceof Rei) {
-                return (PecaXadrez) pecaX;
+        for (Pecas p : lista) {
+            if (p instanceof Rei) {
+                return (PecaXadrez) p;
             }
         }
         // O compilador informa que pode ser que o método não retorne nada, nesse caso devemos lançar uma exceção.
@@ -181,13 +181,13 @@ public class PartidaXadrez {
         if (!testeCheck(cor)) {
             return false;
         }
-        List<Pecas> lista = pecasNoTabuleiro.stream().filter(pecaX -> ((PecaXadrez) pecaX).getCor() == cor).collect(Collectors.toList());
-        for (Pecas pecas : lista) {
-            boolean[][] matriz = pecas.movimentosPossiveisMatriz();
+        List<Pecas> lista = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez) x).getCor() == cor).collect(Collectors.toList());
+        for (Pecas p : lista) {
+            boolean[][] matriz = p.movimentosPossiveisMatriz();
             for (int i = 0; i < tabuleiro.getLinhas(); i++) {
                 for (int j = 0; j < tabuleiro.getColunas(); j++) {
                     if (matriz[i][j]) {
-                        Posicao origem = ((PecaXadrez) pecas).getXadrezPosicao().dePosicao();
+                        Posicao origem = ((PecaXadrez) p).getXadrezPosicao().dePosicao();
                         Posicao destino = new Posicao(i, j);
                         Pecas pecaCapturada = fazerMovimento(origem, destino);
                         boolean testeCheck = testeCheck(cor);
