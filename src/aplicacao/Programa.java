@@ -40,6 +40,13 @@ public class Programa {
                 if (pecaCapturada != null) {
                     capturada.add(pecaCapturada);
                 }
+                
+                if (partidaXadrez.getPromovida()!=null) {
+                    System.out.println("Digite o nome da peça que deseja promover (B/C/T/Q): ");
+                    String tipo = teclado.nextLine();
+                    partidaXadrez.substituirPecaPromovida(tipo);
+                }
+                
             } catch (XadrezExcecao erro) {
                 System.out.println(erro.getMessage());
                 teclado.nextLine();
