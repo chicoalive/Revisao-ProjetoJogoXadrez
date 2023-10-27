@@ -54,9 +54,9 @@ public class UI {
     // Imprimindo a partida
     public static void imprimirPartida(PartidaXadrez partidaXadrez, List<PecaXadrez> capturada) {
         imprimirTabuleiro(partidaXadrez.getPecas());
-        System.out.println(" ");
+        System.out.println();
         imprimirPecaCapturadas(capturada);
-        System.out.println(" ");
+        System.out.println();
         System.out.println("Turno: " + partidaXadrez.getTurno());
         if (!partidaXadrez.getCheckMate()) {
             System.out.println("Proxima jogada: " + partidaXadrez.getJogadorAtual());
